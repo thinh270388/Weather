@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Weather.Mobile.Views.TourismPage"
+             Background="White"
+             Title="Du lịch">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackLayout Grid.Row="0" Grid.RowSpan="4" HorizontalOptions="Center" VerticalOptions="Center" Margin="10" Spacing="10" IsVisible="{Binding IsOnline, Converter={StaticResource InverseBooleanConverter}}">
+            <Label Text="Vui lòng kiểm tra kết nối mạng và thử lại!"/>
+            <Button Text="Tải lại" WidthRequest="100" Command="{Binding RefreshCommand}"/>
+        </StackLayout>
+        
+        <!--DANH SÁCH ĐỊA ĐIỂM-->
+        <StackLayout Grid.Row="0" Background="{StaticResource PrimaryColor1}" IsVisible="{Binding IsOnline}">
+            <StackLayout Orientation="Horizontal" Margin="5">
+                <Image Source="location.png" WidthRequest="32" HeightRequest="32" Margin="0,0,5,0"/>
+                <Label Grid.Row="0" Text="{Binding LocationName, StringFormat='Vị trí của bạn: {0}'}" TextColor="White" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+            </StackLayout>
+            <Frame CornerRadius="10" BorderColor="WhiteSmoke" Margin="5,5,5,10" HasShadow="False" BackgroundColor="{StaticResource PrimaryColor1}" Padding="0">
+                <StackLayout Orientation="Vertical">
+                    <StackLayout Background="White">
+                        <Label Text="DANH SÁCH ĐỊA ĐIỂM DU LỊCH" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="{StaticResource PrimaryColor1}" Padding="5"/>
+                    </StackLayout>
+                    <ListView ItemsSource="{Binding LocalTourisms}" HasUnevenRows="True" SelectedItem="{Binding SelectedLocalTourism}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10" Orientation="Vertical" VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding Name}" VerticalOptions="Center" TextColor="White"/>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" WidthRequest="80">
+                                                <Image Source="distance.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                                <Label Text="{Binding Distance,StringFormat='{0} Km'}" TextColor="White" VerticalOptions="Center"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image Source="time.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                            <Label Text="{Binding TimeDriving}" VerticalOptions="Center" TextColor="Yellow"/>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" WidthRequest="80">
+                                                <Image Source="car.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                                <Label Text="{Binding DistanceDriving, StringFormat='{0} Km'}" TextColor="Yellow" VerticalOptions="Center"/>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+
+        <!--BUTTONS-->
+        <StackLayout Grid.Row="1" IsVisible="{Binding IsOnline}">
+            <StackLayout Orientation="Vertical" Background="White" Margin="5,10,5,5">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="10">
+                    <StackLayout Orientation="Vertical">
+                        <Button x:Name="btnRefresh" ImageSource="refresh_white.png" Command="{Binding RefreshCommand}" HeightRequest="32" WidthRequest="32" Padding="5" Background="{StaticResource PrimaryColor1}"/>
+                        <Label Text="Làm mới" HorizontalOptions="Center" TextColor="{StaticResource PrimaryColor1}" FontSize="Caption"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <Button ImageSource="maps.png" Command="{Binding OpenMapCommand}" HeightRequest="32" WidthRequest="32" Padding="5" Background="{StaticResource PrimaryColor1}"/>
+                        <Label Text="Bản đồ" HorizontalOptions="Center" TextColor="{StaticResource PrimaryColor1}" FontSize="Caption"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical">
+                        <Frame CornerRadius="5" BorderColor="{StaticResource PrimaryColor1}" HasShadow="True" BackgroundColor="White" WidthRequest="120" Padding="5,0,5,0" HorizontalOptions="Center" VerticalOptions="Center">
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="/Images/search_color1.png" WidthRequest="24" HeightRequest="24"/>
+                                <Picker Title="Khu vực ..." TextColor="{StaticResource PrimaryColor1}" TitleColor="White" Background="Transparent" HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" ItemsSource="{Binding Locations}" SelectedItem="{Binding SelectedLocation}">
+                                </Picker>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+
+        <ScrollView Grid.Row="2" IsVisible="{Binding IsOnline}">
+            <StackLayout Orientation="Vertical">
+                <!--ĐỊA ĐIỂM CHI TIẾT-->
+                <StackLayout>
+                    <Frame CornerRadius="10" BorderColor="{StaticResource PrimaryColor1}" HasShadow="False" BackgroundColor="{StaticResource PrimaryColor1}" Padding="0" Margin="5">
+                        <StackLayout Orientation="Vertical">
+                            <StackLayout Orientation="Horizontal">
+                                <ImageButton Source="scale_white.png" WidthRequest="24" HeightRequest="24" Aspect="AspectFill" Command="{Binding VisiblePlaceDetailCommand}" HorizontalOptions="Start" Margin="5"/>
+                                <Label Text="{Binding SelectedLocalTourism.Name,StringFormat='ĐỊA ĐIỂM: {0}'}" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="White" Padding="5" VerticalTextAlignment="Center"/>         
+                            </StackLayout>
+
+                            <ScrollView VerticalOptions="FillAndExpand" Background="White" IsVisible="{Binding IsShowPlaceDetail}">
+                                <StackLayout Padding="5">
+                                    <!--ĐỊA CHỈ-->
+                                    <StackLayout Orientation="Horizontal" Margin="0,5,0,5">
+                                        <Image Source="address_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                        <Label Text="{Binding SelectedLocalTourism.Address}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                    </StackLayout>
+
+                                    <!--THÔNG TIN-->
+                                    <StackLayout Orientation="Horizontal" Margin="0,5,0,5">
+                                        <Image Source="information_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                        <Label Text="{Binding SelectedLocalTourism.Infomation}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                    </StackLayout>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0" Orientation="Horizontal" Margin="0,5,0,5">
+                                            <Image Source="time_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                            <Label Text="{Binding SelectedLocalTourism.Time}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+
+                                        <StackLayout Grid.Column="1" Orientation="Horizontal" Margin="0,5,0,5">
+                                            <Image Source="phone_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                            <Label Text="{Binding SelectedLocalTourism.PhoneNumber}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                    </Grid>
+
+                                    <StackLayout Orientation="Horizontal" Margin="0,5,0,5">
+                                        <Image Source="website_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                        <Label Text="{Binding SelectedLocalTourism.Website}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal" Margin="0,5,0,5">
+                                        <Image Source="utility_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                        <Label Text="{Binding SelectedLocalTourism.Utility}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                    </StackLayout>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout Grid.Column="0" Orientation="Horizontal" Margin="0,5,0,5">
+                                            <Image Source="price_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                            <Label Text="{Binding SelectedLocalTourism.Price}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+
+                                        <StackLayout Grid.Column="1" Orientation="Horizontal" Margin="0,5,0,5">
+                                            <Image Source="point_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                            <Label Text="{Binding SelectedLocalTourism.Point,StringFormat='{0}/5'}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                        </StackLayout>
+                                    </Grid>
+
+                                    <StackLayout Orientation="Horizontal" Margin="0,5,0,5">
+                                        <Image Source="image_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                        <Label Text="Hình ảnh:" TextColor="{StaticResource PrimaryColor1}"/>
+                                    </StackLayout>
+                                    <ListView ItemsSource="{Binding SelectedLocalTourism.Images}" HasUnevenRows="True">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                    <Label Text="{Binding .}" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor1}" FontSize="12" FontAttributes="Italic" Padding="5"/>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
+                                    <StackLayout Orientation="Horizontal" Margin="0,5,0,5">
+                                        <Image Source="comment_color.png" WidthRequest="16" HeightRequest="16" Margin="0,0,5,0"/>
+                                        <Label Text="Đánh giá từ người dùng:" TextColor="{StaticResource PrimaryColor1}"/>
+                                    </StackLayout>
+                                    <ListView ItemsSource="{Binding SelectedLocalTourism.Comments}" HasUnevenRows="True">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                    <Label Text="{Binding .}" HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor1}" FontSize="12" FontAttributes="Italic" Padding="5"/>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackLayout>
+                            </ScrollView>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <!--THỜI GIAN DU LỊCH-->
+                <StackLayout>
+                    <Frame CornerRadius="10" BorderColor="{StaticResource PrimaryColor1}" HasShadow="False" BackgroundColor="{StaticResource PrimaryColor1}" Padding="0" Margin="5">
+                        <StackLayout Orientation="Vertical" Margin="0">
+                            <StackLayout Orientation="Horizontal" Margin="5">
+                                <ImageButton Source="scale_white.png" WidthRequest="24" HeightRequest="24" Aspect="AspectFill" Command="{Binding VisibleTimeTouristCommand}" HorizontalOptions="Start"/>
+                                <Label Text="THỜI GIAN DU LỊCH" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" TextColor="White" VerticalTextAlignment="Center"/>
+                            </StackLayout>
+                            <ListView ItemsSource="{Binding CurrentLocals}" SelectedItem="{Binding SelectedCurrentLocal}" SelectionMode="Single" IsVisible="{Binding IsShowTimeTourist}" HasUnevenRows="True">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <ViewCell.View>
+                                                <Grid ColumnDefinitions="85,*"
+                                                      RowDefinitions="auto,auto"
+                                                      BackgroundColor="White">
+                                                    <Label Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Text="{Binding ThoiGian}" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor1}"/>
+                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding ThoiTiet, StringFormat='- {0}', Converter={StaticResource CodeToLocalConverters}}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" MaxLines="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"/>
+                                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding ThoiTiet, StringFormat='- {0}', Converter={StaticResource CodeToTourismConverters}}" TextColor="{StaticResource PrimaryColor1}" LineBreakMode="WordWrap" MaxLines="0" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand"/>
+                                                </Grid>
+                                            </ViewCell.View>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

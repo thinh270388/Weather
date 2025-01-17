@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Weather.Mobile.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Weather.Mobile.Views.WeatherPage"
+             Background="White"
+             Title="Tra cứu">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackLayout Grid.Row="0" Grid.RowSpan="2" HorizontalOptions="Center" VerticalOptions="Center" Margin="10" Spacing="10" IsVisible="{Binding IsOnline, Converter={StaticResource InverseBooleanConverter}}">
+            <Label Text="Vui lòng kiểm tra kết nối mạng và thử lại!"/>
+            <Button Text="Tải lại" WidthRequest="100" Command="{Binding RefreshCommand}"/>
+        </StackLayout>
+
+        <!-- TÌM KIẾM, THIẾT LẬP -->
+        <StackLayout Grid.Row="0" Orientation="Vertical" Background="{StaticResource PrimaryColor1}" Padding="5" IsVisible="{Binding IsOnline}">
+            <Grid Grid.Row="0" Margin="0,10,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Frame Grid.Column="0" CornerRadius="10" Margin="0,0,5,0" Padding="0" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" Margin="5,0,5,0">
+                        <Image Source="search_color.png" WidthRequest="20" HeightRequest="20" Margin="0,0,5,0"/>
+                        <Entry HorizontalOptions="FillAndExpand" Placeholder="Nhập địa điểm ..." TextColor="#002966" FontAttributes="Bold" BackgroundColor="White" VerticalOptions="Center" Text="{Binding Location}" ClearButtonVisibility="WhileEditing" ReturnCommand="{Binding SearchCommand}" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame Grid.Column="1" CornerRadius="10" Margin="5,0,0,0" Padding="0" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" Margin="5,0,5,0">
+                        <Image Source="website_color.png" WidthRequest="20" HeightRequest="20" Margin="0,0,5,0"/>
+                        <Picker Title="Chọn nguồn dữ liệu ..." HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start" TextColor="#002966" TitleColor="#002966" FontAttributes="Bold" ItemsSource="{Binding SourceApis}" SelectedItem="{Binding SelectedSourceApi}">
+                        </Picker>
+                    </StackLayout>
+                </Frame>
+            </Grid>
+
+            <!-- VỊ TRÍ, THÔNG TIN THỜI TIẾT -->
+            <Grid Grid.Row="1">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                    <!-- VỊ TRÍ -->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Image Source="location.png" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Text="{Binding Current.Location}" FontSize="20" TextColor="White" HorizontalOptions="Center" Margin="5,0,0,0" />
+                    </StackLayout>
+                    <Label Text="{Binding Current.Coordinates}" TextColor="White" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+
+                    <!-- THÔNG TIN THỜI TIẾT -->
+                    <Grid Margin="0,10,0,0">
+                        <Grid ColumnDefinitions="*,*">
+                            <Frame CornerRadius="10" BorderColor="#381e94" HasShadow="False" BackgroundColor="#381e94" Padding="5" Margin="0,0,5,0">
+                                <StackLayout Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                        <Label Text="{Binding Current.Temperature}" FontSize="40" TextColor="White" HorizontalOptions="Center" />
+                                        <Label Text="°C" FontSize="20" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </StackLayout>
+                                    <Image Source="{Binding Current.Icon}" WidthRequest="150" HeightRequest="150" Aspect="AspectFill" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    <Label Text="{Binding Current.Description}" TextColor="WhiteSmoke" FontSize="16" HorizontalTextAlignment="Center" />
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame Grid.Column="1" CornerRadius="10" BorderColor="#381e94" HasShadow="False" BackgroundColor="#381e94" Padding="5" Margin="5,0,0,0">
+                                <StackLayout VerticalOptions="Center">
+                                    <StackLayout Orientation="Horizontal" Margin="0,0,0,5" >
+                                        <Label Text="Độ ẩm: " TextColor="Gray" FontSize="16" />
+                                        <Label Text="{Binding Current.Humidity, StringFormat='{0} %'}" TextColor="White" FontSize="16" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                                        <Label Text="Tốc độ gió: " TextColor="Gray" FontSize="16" />
+                                        <Label Text="{Binding Current.WindSpeed, StringFormat='{0} m/s'}" TextColor="White" FontSize="16" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                                        <Label Text="Áp suất: " TextColor="Gray" FontSize="16" />
+                                        <Label Text="{Binding Current.Pressure, StringFormat='{0} hPa'}" TextColor="White" FontSize="16" />
+                                    </StackLayout>
+                                    <BoxView HeightRequest="1" BackgroundColor="WhiteSmoke" Margin="0,5,0,5"/>
+
+                                    <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                                        <Label Text="Không khí (AQI): " TextColor="Gray" HorizontalOptions="Start" FontSize="16" />
+                                    </StackLayout>
+                                    <Label Text="{Binding AirPollution.AirQuality}" TextColor="White" HorizontalOptions="Center" FontSize="16" Margin="0,0,0,5" />
+
+
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="SO2: " TextColor="Gray" HorizontalOptions="Start" />
+                                        <Label Text="{Binding AirPollution.SO2}" TextColor="White" HorizontalOptions="Start" />
+                                        <Label Text="NO2: " TextColor="Gray" HorizontalOptions="Start" />
+                                        <Label Text="{Binding AirPollution.NO2}" TextColor="White" HorizontalOptions="Start" />
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="PM10: " TextColor="Gray" HorizontalOptions="Start" />
+                                        <Label Text="{Binding AirPollution.PM10}" TextColor="White" HorizontalOptions="Start" />
+                                        <Label Text="PM2.5: " TextColor="Gray" HorizontalOptions="Start" />
+                                        <Label Text="{Binding AirPollution.PM25}" TextColor="White" HorizontalOptions="Start" />
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="03: " TextColor="Gray" HorizontalOptions="Start" />
+                                        <Label Text="{Binding AirPollution.O3}" TextColor="White" HorizontalOptions="Start" />
+                                        <Label Text="CO: " TextColor="Gray" HorizontalOptions="Start" />
+                                        <Label Text="{Binding AirPollution.CO}" TextColor="White" HorizontalOptions="Start" />
+                                    </StackLayout>
+
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </Grid>
+
+                </StackLayout>
+            </Grid>
+
+            <!-- THỜI GIAN, NGUỒN CẬP NHẬT -->
+            <StackLayout Orientation="Vertical" Margin="5">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Cập nhật lúc: " HorizontalOptions="Center" TextColor="LightGray"/>
+                    <Label Text="{Binding Current.UpdateAt}" HorizontalOptions="Center" TextColor="White" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Dữ liệu được cung cấp bởi: " TextColor="LightGray" />
+                    <Label Text="{Binding Current.UpdateBy}" TextColor="White" FontAttributes="Bold"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+
+        <ScrollView Grid.Row="1"  IsVisible="{Binding IsOnline}">
+            <StackLayout Orientation="Vertical">
+                <!-- CẢNH BÁO THỜI TIẾT -->
+                <StackLayout Margin="5,10,5,5">
+                    <Frame CornerRadius="10" BorderColor="{StaticResource PrimaryColor1}" HasShadow="False" BackgroundColor="{StaticResource PrimaryColor1}" Padding="0">
+                        <StackLayout Orientation="Vertical">
+                            <StackLayout Orientation="Horizontal" Margin="5">
+                                <ImageButton Source="scale_white.png" WidthRequest="24" HeightRequest="24" Aspect="AspectFill" Command="{Binding VisibleAlertCommand}" HorizontalOptions="Start"/>
+                                <Label Text="THÔNG TIN THỜI TIẾT" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" FontAttributes="Bold" TextColor="White"/>
+                                <!--<ImageButton Source="/Images/alert.png" WidthRequest="24" HeightRequest="24" Command="{Binding SpeakCommand}"/>-->
+                            </StackLayout>
+                            <Label Text="{Binding Alert}" HorizontalOptions="FillAndExpand" Background="White" TextColor="{StaticResource PrimaryColor1}" Padding="5" IsVisible="{Binding IsShowAlert}"/>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <!-- DỰ BÁO THỜI TIẾT -->
+                <StackLayout Margin="5">
+                    <Frame Grid.Column="1" CornerRadius="10" BorderColor="{StaticResource PrimaryColor1}" HasShadow="False" BackgroundColor="{StaticResource PrimaryColor1}" Padding="0">
+                        <StackLayout Orientation="Vertical">
+                            <StackLayout Orientation="Horizontal" Margin="5">
+                                <ImageButton Source="scale_white.png" WidthRequest="24" HeightRequest="24" Aspect="AspectFill" Command="{Binding VisibleForecastCommand}" HorizontalOptions="Start"/>
+                                <Label Text="DỰ BÁO THỜI TIẾT" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" FontAttributes="Bold" HorizontalTextAlignment="Center" TextColor="White"/>
+                            </StackLayout>
+                            <ListView ItemsSource="{Binding Forecasts}" HasUnevenRows="True" IsVisible="{Binding IsShowForecast}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Padding="5" Orientation="Horizontal" VerticalOptions="Center" Background="White">
+                                                <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                                                    <Label Text="{Binding Dt_Txt}" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor1}" />
+                                                    <Label Text="{Binding Time}" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor1}" FontAttributes="Bold"/>
+                                                </StackLayout>
+                                                <Image Source="{Binding Icon}" WidthRequest="50" HeightRequest="50" VerticalOptions="Center" Margin="10,0"/>
+                                                <StackLayout Orientation="Vertical" WidthRequest="70" VerticalOptions="Center">
+                                                    <Label Text="{Binding Temp, StringFormat='{0} °C'}" TextColor="{StaticResource PrimaryColor1}" VerticalOptions="Center"/>
+                                                    <Label Text="{Binding WindSpeed, StringFormat='{0} m/s'}" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor1}" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                                                    <Label Text="{Binding Description}" FontSize="14" TextColor="{StaticResource PrimaryColor1}" VerticalOptions="Center" />
+                                                    <Label Text="{Binding Humidity, StringFormat='Độ ẩm: {0} %'}" VerticalOptions="Center" TextColor="{StaticResource PrimaryColor1}" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

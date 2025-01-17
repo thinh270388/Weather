@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Weather.Mobile.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Weather.Mobile.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Weather.Mobile">
+
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />-->
+
+    <TabBar>
+        <ShellContent Title="Thời tiết" Icon="local.png" ContentTemplate="{DataTemplate local:LocalPage}" Shell.NavBarIsVisible="False"/>
+        <ShellContent Title="Du lịch" Icon="tourism.png" ContentTemplate="{DataTemplate local:TourismPage}" Shell.NavBarIsVisible="false" />
+        <ShellContent Title="Trang chủ" Icon="home.png" ContentTemplate="{DataTemplate local:HomePage}" Shell.NavBarIsVisible="True" x:Name="tabHome"/>
+        <ShellContent Title="Tra cứu" Icon="search.png" ContentTemplate="{DataTemplate local:WeatherPage}" Shell.NavBarIsVisible="false"/>
+        <ShellContent Title="Cài đặt" Icon="setting.png" ContentTemplate="{DataTemplate local:SettingPage}" Shell.NavBarIsVisible="True"/>
+    </TabBar>
+
+</Shell>

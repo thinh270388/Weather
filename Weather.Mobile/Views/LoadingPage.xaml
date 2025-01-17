@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Weather.Mobile.Views.LoadingPage"
+             BackgroundColor="#80000000"
+             Title="LoadingPage">
+    <Grid>
+        <Frame BackgroundColor="White" 
+               CornerRadius="10" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Center"
+               Padding="20">
+            <StackLayout Spacing="20">
+                <ActivityIndicator IsRunning="True" 
+                                 Color="Blue"
+                                 HorizontalOptions="Center"/>
+                <Label x:Name="MessageLabel"
+                       Text="Đang tải dữ liệu..."
+                       HorizontalOptions="Center"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,45 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userprefs
+*.sln.docstates
+
+# Build outputs
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+# Models
+Weather.Models/bin/
+Weather.Models/obj/
+
+# Services
+Weather.Services/bin/
+Weather.Services/obj/
+
+# ASP.NET Core
+Weather.APIs/bin/
+Weather.APIs/obj/
+Weather.APIs/Logs/
+
+# WPF
+Weather.Desktop/bin/
+Weather.Desktop/obj/
+
+# MAUI
+Weather.Mobile/bin/
+Weather.Mobile/obj/
+
+# Blazor
+Weather.Web/bin/
+Weather.Web/obj/
+
+# NuGet Packages
+*.nupkg
+**/packages/*
+*.snupkg
+
+# Logs
+*.log

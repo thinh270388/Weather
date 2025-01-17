@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Weather.Mobile.Views.HomePage"
+             Background="{StaticResource PrimaryColor1}"
+             Title="Trang chủ">
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="10" VerticalOptions="Center">
+
+            <Label Text="PHÁT TRIỂN ỨNG DỤNG ANDROID" VerticalOptions="Center" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" TextColor="White" />
+
+            <Frame CornerRadius="10">
+                <StackLayout Orientation="Vertical" Spacing="5">
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Ngôn ngữ lập trình: " VerticalTextAlignment="Center" TextColor="Gray"/>
+                        <Label Text="C#" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Nền tảng phát triển: " VerticalTextAlignment="Center" TextColor="Gray"/>
+                        <Label Text=".NET 8" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Công nghệ giao diện người dùng: " VerticalTextAlignment="Center" TextColor="Gray"/>
+                        <Label Text=".NET MAUI" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Mô hình kiến trúc: " VerticalTextAlignment="Center" TextColor="Gray"/>
+                        <Label Text="MVVM" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center"/>
+                        <Label Text=" (Model-View-ViewModel)" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label Text="Công cụ phát triển: " VerticalTextAlignment="Center" TextColor="Gray"/>
+                        <Label Text="Visual Studio" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <Label Text="NGUỒN DỮ LIỆU" VerticalOptions="Center" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" TextColor="White" />
+
+            <Frame CornerRadius="10">
+                <StackLayout Orientation="Vertical" Spacing="5">
+                    <Label Text="Thời tiết của địa phương:" HorizontalOptions="Center" VerticalTextAlignment="Center" TextColor="Gray"/>
+                    <Label Text="Đài khí tượng thủy văn tỉnh Ninh Thuận" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label Text="Du lịch của địa phương: " HorizontalOptions="Center" VerticalTextAlignment="Center" TextColor="Gray"/>
+                        <Label Text="Google Places API" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+                    </StackLayout>
+
+                    <Label Text="Thời tiết theo thời gian thực (APIs):" HorizontalOptions="Center" VerticalTextAlignment="Center" TextColor="Gray"/>
+                    <Label Text="OpenWeather, Tomorrow" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+                    <Label Text="WeatherApi, WeatherStack" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+
+            <Label Text="CHỨC NĂNG CHÍNH" VerticalOptions="Center" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center" TextColor="White" />
+
+            <Frame CornerRadius="10">
+                <StackLayout Orientation="Vertical" Spacing="5">
+                    <Label Text="Thời tiết" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+                    <Label Text="Thông tin về thời tiết, nông nghiệp của địa phương" VerticalTextAlignment="Center" TextColor="Gray" LineBreakMode="WordWrap"/>
+
+                    <Label Text="Du lịch" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+                    <Label Text="Thông tin về du lịch của địa phương" VerticalTextAlignment="Center" TextColor="Gray" LineBreakMode="WordWrap"/>
+
+                    <Label Text="Tra cứu" FontAttributes="Bold" FontSize="16" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+                    <Label Text="Thông tin về thời tiết từ APIs theo thời gian thực" VerticalTextAlignment="Center" TextColor="Gray" LineBreakMode="WordWrap"/>
+                </StackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

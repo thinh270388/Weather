@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Weather.Mobile.Views.GuideView">
+
+    <ScrollView>
+        <Frame CornerRadius="0" Padding="0" Margin="5" HasShadow="False">
+            <StackLayout BackgroundColor="White" Padding="10">
+                <Label Text="{Binding GuideTitle}" TextColor="Red" FontSize="20" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                <Button Text="Đóng" Command="{Binding CloseModalCommand}" Margin="10" BackgroundColor="{StaticResource PrimaryColor1}"/>
+                <Label Text="{Binding GuideDescription}" TextColor="{StaticResource PrimaryColor1}"/>
+                <Button Text="Đóng" Command="{Binding CloseModalCommand}" Margin="10" BackgroundColor="{StaticResource PrimaryColor1}"/>
+            </StackLayout>
+        </Frame>
+    </ScrollView>
+</ContentView>
